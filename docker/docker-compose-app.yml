@@ -1,0 +1,30 @@
+services:
+  DatPhongNhanh_api:
+    container_name: DatPhongNhanh_api
+    image: ${DOCKER_REGISTRY-}DatPhongNhanh_api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: ../src
+      dockerfile: ../src/DatPhongNhanh.WebApi/Dockerfile
+    depends_on:
+      - postgres_db
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Development"
+      - "ASPNETCORE_URLS=http://+:80"
+      - "DatabaseSetting:Host=postgres_db"
+      - "DatabaseSetting:Port=5432"
+      - "DatabaseSetting:Database=DatPhongNhanh_db"
+      - "DatabaseSetting:Username=admin"
+      - "DatabaseSetting:Password=admin"
+      - "DatabaseSetting:SslMode="
+    ports:
+      - "16111:80"
+    restart: on-failure
+
+networks:
+  default:
+    name: DatPhongNhanh_network
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

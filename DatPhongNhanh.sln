@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{4B39C63E-1714-448D-BAC6-9DD649AB9CFE}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4305ACD0-A847-40F0-9839-C23E70252407}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{A257D112-2992-49B5-AC38-5B357E25BE83}"
+	ProjectSection(SolutionItems) = preProject
+		docker\docker-compose-app.yml = docker\docker-compose-app.yml
+		docker\docker-compose-infras.yml = docker\docker-compose-infras.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C5D978FE-D177-4C43-92C5-7222F1F8BC7A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{3AF0CAA5-A5CA-4082-A2C7-3D9F466AD228}"
+	ProjectSection(SolutionItems) = preProject
+		docs\migrations\README.md = docs\migrations\README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.Shared", "src\DatPhongNhanh.Shared\DatPhongNhanh.Shared.csproj", "{703CE5EA-47B4-492D-BC83-7DDDA526701B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.Domain", "src\DatPhongNhanh.Domain\DatPhongNhanh.Domain.csproj", "{CEDD5D60-62A2-47C3-A58F-36D42AE82269}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.Infrastructure", "src\DatPhongNhanh.Infrastructure\DatPhongNhanh.Infrastructure.csproj", "{A225863C-503A-498D-B890-3D52742E5266}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.Application", "src\DatPhongNhanh.Application\DatPhongNhanh.Application.csproj", "{9CAC2D76-FAAD-490D-BDA2-B5AF393A0EBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.WebApi", "src\DatPhongNhanh.WebApi\DatPhongNhanh.WebApi.csproj", "{343ED7B0-BBE8-4971-B227-59CCC33001EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{703CE5EA-47B4-492D-BC83-7DDDA526701B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703CE5EA-47B4-492D-BC83-7DDDA526701B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{703CE5EA-47B4-492D-BC83-7DDDA526701B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{703CE5EA-47B4-492D-BC83-7DDDA526701B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEDD5D60-62A2-47C3-A58F-36D42AE82269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEDD5D60-62A2-47C3-A58F-36D42AE82269}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEDD5D60-62A2-47C3-A58F-36D42AE82269}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEDD5D60-62A2-47C3-A58F-36D42AE82269}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A225863C-503A-498D-B890-3D52742E5266}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A225863C-503A-498D-B890-3D52742E5266}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A225863C-503A-498D-B890-3D52742E5266}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A225863C-503A-498D-B890-3D52742E5266}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CAC2D76-FAAD-490D-BDA2-B5AF393A0EBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CAC2D76-FAAD-490D-BDA2-B5AF393A0EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CAC2D76-FAAD-490D-BDA2-B5AF393A0EBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CAC2D76-FAAD-490D-BDA2-B5AF393A0EBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{343ED7B0-BBE8-4971-B227-59CCC33001EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{343ED7B0-BBE8-4971-B227-59CCC33001EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{343ED7B0-BBE8-4971-B227-59CCC33001EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{343ED7B0-BBE8-4971-B227-59CCC33001EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A257D112-2992-49B5-AC38-5B357E25BE83} = {4B39C63E-1714-448D-BAC6-9DD649AB9CFE}
+		{C5D978FE-D177-4C43-92C5-7222F1F8BC7A} = {4B39C63E-1714-448D-BAC6-9DD649AB9CFE}
+		{3AF0CAA5-A5CA-4082-A2C7-3D9F466AD228} = {C5D978FE-D177-4C43-92C5-7222F1F8BC7A}
+		{703CE5EA-47B4-492D-BC83-7DDDA526701B} = {4305ACD0-A847-40F0-9839-C23E70252407}
+		{CEDD5D60-62A2-47C3-A58F-36D42AE82269} = {4305ACD0-A847-40F0-9839-C23E70252407}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F89CD78-DAB4-44D5-ABD8-216382A5DEC0}
+	EndGlobalSection
+EndGlobal
