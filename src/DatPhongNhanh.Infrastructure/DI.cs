@@ -1,11 +1,10 @@
-﻿using DatPhongNhanh.Application.Common.Cache;
+﻿using DatPhongNhanh.Application.Common.Caching;
 using DatPhongNhanh.Application.Common.Interfaces;
 using DatPhongNhanh.Domain.Common.Options;
 using DatPhongNhanh.Domain.Common.Services;
 using DatPhongNhanh.Domain.Homestay.Services;
 using DatPhongNhanh.Domain.User.Options;
 using DatPhongNhanh.Domain.User.Services;
-using DatPhongNhanh.Infrastructure.Cache;
 using DatPhongNhanh.Infrastructure.Data.Contexts;
 using DatPhongNhanh.Infrastructure.Data.Interceptors;
 using DatPhongNhanh.Infrastructure.Homestay;
@@ -31,7 +30,6 @@ public static class DependencyInjection
         services.AddJwt(configuration);
         services.AddEntityFramework(configuration);
         services.AddInfrasServices();
-        services.AddCaching();
         services.AddIdGen();
         
         return services;
@@ -137,12 +135,14 @@ public static class DependencyInjection
         services.AddScoped<IUserNormalize, UserNormalize>();
         services.AddSingleton(sp => PasswordHasherOptions.Default);
         services.AddScoped<IHomestayService, HomestayService>();
+
+        services.AddScoped(typeof(ICacheService<>), typeof(CacheService<>));
+
+        services.AddEasyCaching(options =>
+        {
+            options.UseInMemory("mem");
+        });
     }
 
-    private static void AddCaching(this IServiceCollection services)
-    {
-        services.AddScoped<ICachePolicy, DefaultCachePolicy>();
-        services.AddMemoryCache();
-        services.AddScoped<ICacheService, MemoryCacheService>();
-    }
+   
 }

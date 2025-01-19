@@ -1,6 +1,7 @@
 ﻿using DatPhongNhanh.Application.User.Commands;
 using DatPhongNhanh.Application.User.Queries;
 using DatPhongNhanh.Domain.Common.Services;
+using DatPhongNhanh.Domain.User;
 using DatPhongNhanh.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,11 +63,6 @@ namespace DatPhongNhanh.WebApi.Controllers
             return Ok(data);
         }
 
-        [HttpGet(nameof(GetTestCache))]
-        public async Task<IActionResult> GetTestCache([FromQuery]TestCacheQuery query)
-        {
-            var result = await Mediator.Send(query);
-            return result.Match(Ok, Problem);
-        }
+       
     }
 }

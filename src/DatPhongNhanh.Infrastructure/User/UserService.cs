@@ -74,6 +74,7 @@ public class UserService : IUserService
         return isVerified ? user : Error.Validation("Invalid password");
     }
 
+
     public Task<UserEntity> UpdateUserAsync(Guid userId, string email, string password)
     {
         throw new NotImplementedException();
