@@ -27,7 +27,9 @@ public static class DbTypeConstants
     public const string ENUM = "enum";
     public const string BLOB = "blob";
     public const string GEOMETRY = "geometry";
-    // geometry(Point, 3857)
+    /// <summary>
+    /// Geometry(Point, 3857)
+    /// </summary>
     public const string GEOMETRY_POINT_3857 = "geometry(Point, 3857)";
 
     public const string DOUBLE_PRECISION = "double precision";

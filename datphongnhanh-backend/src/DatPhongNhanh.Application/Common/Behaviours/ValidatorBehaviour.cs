@@ -26,7 +26,6 @@ public class ValidatorBehaviour<TRequest, TResponse> : IPipelineBehavior<TReques
         {
             return await next();
         }
-
         var errors = validationResult.Errors
            .ConvertAll(error => Error.Validation(
                code: error.PropertyName,

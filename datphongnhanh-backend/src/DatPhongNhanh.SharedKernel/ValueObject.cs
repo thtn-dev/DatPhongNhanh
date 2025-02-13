@@ -1,4 +1,4 @@
-﻿namespace DatPhongNhanh.Shared;
+﻿namespace DatPhongNhanh.SharedKernel;
 [Serializable]
 public abstract class ValueObject : IEquatable<ValueObject>, IComparable, IComparable<ValueObject>
 {

@@ -1,0 +1,6 @@
+@DatPhongNhanh.WebApiV1_HostAddress = http://localhost:5225
+
+GET {{DatPhongNhanh.WebApiV1_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
