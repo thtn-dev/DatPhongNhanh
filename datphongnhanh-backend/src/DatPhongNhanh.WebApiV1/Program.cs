@@ -1,5 +1,4 @@
-﻿
-using Asp.Versioning;
+﻿using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using DatPhongNhanh.BusinessLogic;
 using DatPhongNhanh.BusinessLogic.Services;
@@ -9,14 +8,19 @@ using DatPhongNhanh.Data.DbContexts;
 using DatPhongNhanh.Data.PostgreSql.Extensions;
 using DatPhongNhanh.Data.Repositories;
 using DatPhongNhanh.Data.Repositories.Interfaces;
+using DatPhongNhanh.WebApiV1.AuthenticationHandler;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using NSwag;
 using NSwag.AspNetCore;
-using NSwag.Generation.Processors;
+using NSwag.Generation.Processors.Security;
 
 namespace DatPhongNhanh.WebApiV1
 {
     public class Program
     {
+        public static List<ApiVersion> Versions = [new ApiVersion(1, 0), new ApiVersion(2, 0)];
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -24,11 +28,26 @@ namespace DatPhongNhanh.WebApiV1
             // Add services to the container.
             builder.Services.AddControllers();
 
+            builder.Services.AddHttpClient();
+            builder.Services.AddAuthentication("GoogleAuth")
+                .AddScheme<AuthenticationSchemeOptions, GoogleAuthenticationHandler>("GoogleAuth", null);
+
+            builder.Services.AddAuthorization(options =>
+            {
+                var defaultPolicy = new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes("GoogleAuth")
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.DefaultPolicy = defaultPolicy;
+            });
+
+
             builder.Services.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.DefaultApiVersion = Versions.First();
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
             })
                 .AddApiExplorer(options =>
@@ -37,43 +56,59 @@ namespace DatPhongNhanh.WebApiV1
                     options.SubstituteApiVersionInUrl = true;
                     options.AddApiVersionParametersWhenVersionNeutral = true;
                     options.AssumeDefaultVersionWhenUnspecified = true;
+                    options.DefaultApiVersion = Versions.First();
                 });
 
-            builder.Services.AddOpenApiDocument(config =>
+            foreach (var version in Versions)
             {
-                config.DocumentName = "v1";
-                config.Version = "1.0";
-                config.Title = "My API V1";
-                config.Description = "API Documentation for Version 1.0";
-                config.ApiGroupNames = ["v1"];
+                builder.Services.AddOpenApiDocument(config =>
+                {
+                    string strVer = "v" + version.MajorVersion;
+                    config.Title = $"API DatPhongNhanh {strVer}";
+                    config.Description = $"API DatPhongNhanh {strVer}";
+                    config.Version = strVer;
+                    config.DocumentName = strVer;
+                    config.ApiGroupNames = [strVer];
+                    config.PostProcess = document =>
+                    {
+                        document.Info.Version = strVer;
+                        document.Info.Title = $"API DatPhongNhanh {strVer}";
+                        document.Info.Description = $"API DatPhongNhanh {strVer}";
+                    };
 
-            });
+                    config.AddSecurity("OAuth2", new OpenApiSecurityScheme
+                    {
+                        Type = OpenApiSecuritySchemeType.OAuth2,
+                        Flow = OpenApiOAuth2Flow.Implicit,
+                        TokenUrl = "https://oauth2.googleapis.com/token",
+                        AuthorizationUrl = "https://accounts.google.com/o/oauth2/v2/auth",
+                        Scopes = new Dictionary<string, string>
+                        {
+                            { "openid", "OpenID Connect" },
+                            { "profile", "Access user profile" },
+                            { "email", "Access user email" }
+                        }
+                        //Flows = new OpenApiOAuthFlows
+                        //{
+                        //    Implicit = new OpenApiOAuthFlow
+                        //    {
+                        //        AuthorizationUrl = "https://accounts.google.com/o/oauth2/v2/auth",
+                        //        Scopes = new Dictionary<string, string>
+                        //        {
+                        //            { "openid", "OpenID Connect" },
+                        //            { "profile", "Access user profile" },
+                        //            { "email", "Access user email" }
+                        //        }
+                        //    }
+                        //}
 
-            //builder.Services.AddOpenApiDocument(config =>
-            //{
-            //    config.DocumentName = "v2";
-            //    config.ApiGroupNames = ["v2"] ;
-            //    config.Title = "API v2";
-            //    config.Version = "2.0";
-            //});
-            //var buildServiceProvider = builder.Services.BuildServiceProvider();
-            //var apiVersionDescriptionProvider = buildServiceProvider.GetRequiredService<IApiVersionDescriptionProvider>();
+                    });
 
-            //foreach (var apiVersionDescription in apiVersionDescriptionProvider.ApiVersionDescriptions)
-            //{
-            //    builder.Services.AddSwaggerDocument(config =>
-            //    {
-            //        config.DocumentName = "v" + apiVersionDescription.ApiVersion.ToString();
-            //        config.Version = apiVersionDescription.ApiVersion.ToString();
-            //        config.PostProcess = document =>
-            //        {
-            //            document.Info.Title = "My API V" + apiVersionDescription.ApiVersion.ToString();
-            //            document.Info.Description = "API Documentation for Version " + apiVersionDescription.ApiVersion.ToString();
-            //            document.Info.Version = apiVersionDescription.ApiVersion.ToString();
-            //        };
-            //        config.ApiGroupNames = new[] { apiVersionDescription.ApiVersion.ToString() };
-            //    });
-            //}
+                    config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("OAuth2"));
+
+                });
+            }
+
 
             var connectionStrings = builder.Configuration.GetSection(nameof(ConnectionStringsConfiguration)).Get<ConnectionStringsConfiguration>();
             ArgumentNullException.ThrowIfNull(connectionStrings, nameof(connectionStrings));
@@ -88,35 +123,27 @@ namespace DatPhongNhanh.WebApiV1
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseOpenApi(options =>
-                {
-                });
-
-
+                app.UseOpenApi();
                 app.UseSwaggerUi(settings =>
                 {
                     IApiVersionDescriptionProvider apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-                    //settings.SwaggerRoutes.Add(new NSwag.AspNetCore.SwaggerUiRoute("v1", "/swagger/v1/swagger.json"));
-                    //settings.SwaggerRoutes.Add(new NSwag.AspNetCore.SwaggerUiRoute("v2", "/swagger/v2/swagger.json"));
                     foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
                     {
                         settings.SwaggerRoutes.Add(new SwaggerUiRoute(
-                            $"API {description.GroupName}",
+                            $"API DatPhongNhanh {description.GroupName}",
                             $"/swagger/{description.GroupName}/swagger.json"));
-
                     }
 
+                    settings.OAuth2Client = new OAuth2ClientSettings
+                    {
+                        AppName = "DatPhongNhanh",
+                        Scopes = { "openid", "profile", "email" },
+                    };
                 });
-
-
-                //app.UseReDoc(options =>
-                //{
-                //    options.Path = "/redoc";
-                //});
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

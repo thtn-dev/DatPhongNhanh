@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DatPhongNhanh.WebApiV1.Controllers.v2
 {
-    [Route("api/v{version:apiVersion}/xyz")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("2.0")]
     public class UserController : ControllerBase

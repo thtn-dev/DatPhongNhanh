@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using DatPhongNhanh.BusinessLogic.Services.Interfaces;
 using DatPhongNhanh.Data.Entities.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
@@ -18,7 +19,7 @@ namespace DatPhongNhanh.WebApiV1.Controllers.v1
         }
         [HttpGet]
         [Route("GetById/{userId}")]
-        [SwaggerResponse(StatusCodes.Status200OK, typeof(UserEntity))]
+        [Authorize(AuthenticationSchemes = "GoogleAuth")]
         public async Task<IActionResult> GetById(long userId)
         {
             return Ok(await _userService.GetUserByIdAsync(userId));
@@ -26,7 +27,6 @@ namespace DatPhongNhanh.WebApiV1.Controllers.v1
 
         [HttpGet]
         [Route("GetByName")]
-        [SwaggerResponse(StatusCodes.Status200OK, typeof(UserEntity))]
 
         public async Task<IActionResult> GetByName([FromQuery] string userName)
         {

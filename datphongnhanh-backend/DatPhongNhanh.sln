@@ -38,17 +38,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{B19A671A-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{2C825B08-E214-4DA4-A5C0-B1C04FA55090}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.SharedKernel", "src\DatPhongNhanh.SharedKernel\DatPhongNhanh.SharedKernel.csproj", "{0D181FB7-6A57-42E8-B56C-4A284B829996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.SharedKernel", "src\DatPhongNhanh.SharedKernel\DatPhongNhanh.SharedKernel.csproj", "{0D181FB7-6A57-42E8-B56C-4A284B829996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.Data", "src\DatPhongNhanh.Data\DatPhongNhanh.Data.csproj", "{53AC556B-58A8-45AD-9180-99B65731F6F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.Data", "src\DatPhongNhanh.Data\DatPhongNhanh.Data.csproj", "{53AC556B-58A8-45AD-9180-99B65731F6F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.Data.PostgreSql", "src\DatPhongNhanh.Data.PostgreSql\DatPhongNhanh.Data.PostgreSql.csproj", "{494BC6CC-1266-4481-A447-0921C0269DBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.Data.PostgreSql", "src\DatPhongNhanh.Data.PostgreSql\DatPhongNhanh.Data.PostgreSql.csproj", "{494BC6CC-1266-4481-A447-0921C0269DBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.BusinessLogic", "src\DatPhongNhanh.BusinessLogic\DatPhongNhanh.BusinessLogic.csproj", "{74B3D3E3-8AB3-4B7D-A95F-52C1D4D035B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.BusinessLogic", "src\DatPhongNhanh.BusinessLogic\DatPhongNhanh.BusinessLogic.csproj", "{74B3D3E3-8AB3-4B7D-A95F-52C1D4D035B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{866884FD-1B44-4147-82F2-7D1EF0D2FB83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.WebApiV1", "src\DatPhongNhanh.WebApiV1\DatPhongNhanh.WebApiV1.csproj", "{01A3DB83-82F3-41C6-AFFF-7D612D13BCF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatPhongNhanh.WebApiV1", "src\DatPhongNhanh.WebApiV1\DatPhongNhanh.WebApiV1.csproj", "{01A3DB83-82F3-41C6-AFFF-7D612D13BCF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
