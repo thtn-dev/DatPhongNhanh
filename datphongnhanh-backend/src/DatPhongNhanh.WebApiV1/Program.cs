@@ -1,125 +1,54 @@
 ﻿using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
-using DatPhongNhanh.BusinessLogic;
-using DatPhongNhanh.BusinessLogic.Services;
-using DatPhongNhanh.BusinessLogic.Services.Interfaces;
-using DatPhongNhanh.Data.Configurations;
-using DatPhongNhanh.Data.DbContexts;
-using DatPhongNhanh.Data.PostgreSql.Extensions;
-using DatPhongNhanh.Data.Repositories;
-using DatPhongNhanh.Data.Repositories.Interfaces;
-using DatPhongNhanh.WebApiV1.AuthenticationHandler;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using NSwag;
+using DatPhongNhanh.WebApi.Extensions;
 using NSwag.AspNetCore;
-using NSwag.Generation.Processors.Security;
+using Serilog;
+using Serilog.Events;
 
-namespace DatPhongNhanh.WebApiV1
+namespace DatPhongNhanh.WebApi
 {
     public class Program
     {
-        public static List<ApiVersion> Versions = [new ApiVersion(1, 0), new ApiVersion(2, 0)];
+        public static readonly List<ApiVersion> Versions = [new ApiVersion(1, 0)];
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-            builder.Services.AddControllers();
-
-            builder.Services.AddHttpClient();
-            builder.Services.AddAuthentication("GoogleAuth")
-                .AddScheme<AuthenticationSchemeOptions, GoogleAuthenticationHandler>("GoogleAuth", null);
-
-            builder.Services.AddAuthorization(options =>
+            try
             {
-                var defaultPolicy = new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes("GoogleAuth")
-                    .RequireAuthenticatedUser()
-                    .Build();
-
-                options.DefaultPolicy = defaultPolicy;
-            });
-
-
-            builder.Services.AddApiVersioning(options =>
-            {
-                options.ReportApiVersions = true;
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = Versions.First();
-                options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            })
-                .AddApiExplorer(options =>
-                {
-                    options.GroupNameFormat = "'v'VVV";
-                    options.SubstituteApiVersionInUrl = true;
-                    options.AddApiVersionParametersWhenVersionNeutral = true;
-                    options.AssumeDefaultVersionWhenUnspecified = true;
-                    options.DefaultApiVersion = Versions.First();
-                });
-
-            foreach (var version in Versions)
-            {
-                builder.Services.AddOpenApiDocument(config =>
-                {
-                    string strVer = "v" + version.MajorVersion;
-                    config.Title = $"API DatPhongNhanh {strVer}";
-                    config.Description = $"API DatPhongNhanh {strVer}";
-                    config.Version = strVer;
-                    config.DocumentName = strVer;
-                    config.ApiGroupNames = [strVer];
-                    config.PostProcess = document =>
-                    {
-                        document.Info.Version = strVer;
-                        document.Info.Title = $"API DatPhongNhanh {strVer}";
-                        document.Info.Description = $"API DatPhongNhanh {strVer}";
-                    };
-
-                    config.AddSecurity("OAuth2", new OpenApiSecurityScheme
-                    {
-                        Type = OpenApiSecuritySchemeType.OAuth2,
-                        Flow = OpenApiOAuth2Flow.Implicit,
-                        TokenUrl = "https://oauth2.googleapis.com/token",
-                        AuthorizationUrl = "https://accounts.google.com/o/oauth2/v2/auth",
-                        Scopes = new Dictionary<string, string>
-                        {
-                            { "openid", "OpenID Connect" },
-                            { "profile", "Access user profile" },
-                            { "email", "Access user email" }
-                        }
-                        //Flows = new OpenApiOAuthFlows
-                        //{
-                        //    Implicit = new OpenApiOAuthFlow
-                        //    {
-                        //        AuthorizationUrl = "https://accounts.google.com/o/oauth2/v2/auth",
-                        //        Scopes = new Dictionary<string, string>
-                        //        {
-                        //            { "openid", "OpenID Connect" },
-                        //            { "profile", "Access user profile" },
-                        //            { "email", "Access user email" }
-                        //        }
-                        //    }
-                        //}
-
-                    });
-
-                    config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("OAuth2"));
-
-                });
+                var builder = WebApplication.CreateBuilder(args);
+                builder.Host.ConfigAppHost();
+                builder.Services.AddApplicationServices(builder.Configuration);
+                var app = builder.Build();
+                ConfigPipelines(app);
+                await app.RunAsync();
             }
+            finally
+            {
 
+            }
+        }
 
-            var connectionStrings = builder.Configuration.GetSection(nameof(ConnectionStringsConfiguration)).Get<ConnectionStringsConfiguration>();
-            ArgumentNullException.ThrowIfNull(connectionStrings, nameof(connectionStrings));
-            builder.Services.RegisterNpgSqlDbContexts<AppDbContext>(connectionStrings);
+        private static WebApplication ConfigPipelines(WebApplication app)
+        {
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSerilogRequestLogging(options =>
+                    {
+                        options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
 
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IUserService, UserService>();
+                        // Customize the logging level
+                        options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Information;
 
-            var app = builder.Build();
-
+                        // Enrich the logging message
+                        options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+                        {
+                            diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value!);
+                            diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+                            diagnosticContext.Set("UserAgent", httpContext.Request.Headers["User-Agent"].FirstOrDefault()!);
+                        };
+                    });
+            }
+                
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -148,8 +77,7 @@ namespace DatPhongNhanh.WebApiV1
 
 
             app.MapControllers();
-
-            app.Run();
+            return app;
         }
     }
 }

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace DatPhongNhanh.WebApiV1.AuthenticationHandler
+namespace DatPhongNhanh.WebApi.AuthenticationHandler
 {
     public class GoogleAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {

@@ -1,17 +1,8 @@
 ﻿using DatPhongNhanh.Data.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DatPhongNhanh.SharedKernel;
 
 namespace DatPhongNhanh.BusinessLogic
 {
-    public interface IUnitOfWork
-    {
-        Task<int> SaveChangesAsync();
-    }
-
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _dbContext;
@@ -19,9 +10,24 @@ namespace DatPhongNhanh.BusinessLogic
         {
             _dbContext = dbContext;
         }
-        public Task<int> SaveChangesAsync()
+
+        public void Dispose()
         {
-            return _dbContext.SaveChangesAsync();
+            Dispose(true);
+            System.GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dbContext.Dispose();
+            }
+        }
+
+        public Task<int> SaveChangesAsync(CancellationToken cancellation = default)
+        {
+            return _dbContext.SaveChangesAsync(cancellation);
         }
     }
 }

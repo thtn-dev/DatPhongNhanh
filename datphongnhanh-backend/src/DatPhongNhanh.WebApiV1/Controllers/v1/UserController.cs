@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
-namespace DatPhongNhanh.WebApiV1.Controllers.v1
+namespace DatPhongNhanh.WebApi.Controllers.v1
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -13,9 +13,11 @@ namespace DatPhongNhanh.WebApiV1.Controllers.v1
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly ILogger<AuthController> _logger;
+        public UserController(IUserService userService, ILogger<AuthController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
         [HttpGet]
         [Route("GetById/{userId}")]
@@ -30,6 +32,7 @@ namespace DatPhongNhanh.WebApiV1.Controllers.v1
 
         public async Task<IActionResult> GetByName([FromQuery] string userName)
         {
+            _logger.LogInformation("GetByName called with {userName}", userName);
             return Ok(await _userService.GetUserByNameAsync(userName));
         }
 

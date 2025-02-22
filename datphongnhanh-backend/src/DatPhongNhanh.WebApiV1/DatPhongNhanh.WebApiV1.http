@@ -1,6 +1,6 @@
-@DatPhongNhanh.WebApiV1_HostAddress = http://localhost:5225
+@DatPhongNhanh.WebApi_HostAddress = http://localhost:5225
 
-GET {{DatPhongNhanh.WebApiV1_HostAddress}}/weatherforecast/
+GET {{DatPhongNhanh.WebApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
