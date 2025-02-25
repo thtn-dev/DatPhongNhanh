@@ -1,5 +1,5 @@
 ﻿using Asp.Versioning;
-using DatPhongNhanh.BusinessLogic.Services.Interfaces;
+using DatPhongNhanh.BusinessLogic.User.Interfaces;
 using DatPhongNhanh.Data.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

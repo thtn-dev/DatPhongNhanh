@@ -10,11 +10,11 @@ using DatPhongNhanh.Data.PostgreSql.Extensions;
 using DatPhongNhanh.BusinessLogic;
 using DatPhongNhanh.Data.Repositories.Interfaces;
 using DatPhongNhanh.Data.Repositories;
-using DatPhongNhanh.BusinessLogic.Services.Interfaces;
 using DatPhongNhanh.SharedKernel;
-using DatPhongNhanh.BusinessLogic.Services;
 using FluentValidation.AspNetCore;
 using FluentValidation;
+using DatPhongNhanh.BusinessLogic.User.Interfaces;
+using DatPhongNhanh.BusinessLogic.User;
 
 namespace DatPhongNhanh.WebApi.Extensions
 {

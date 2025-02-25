@@ -1,6 +1,6 @@
 ﻿using DatPhongNhanh.Data.Entities.Identity;
 
-namespace DatPhongNhanh.BusinessLogic.Services.Interfaces
+namespace DatPhongNhanh.BusinessLogic.User.Interfaces
 {
     public interface IUserService
     {
