@@ -1,17 +1,12 @@
 using System.Diagnostics;
+using DatPhongNhanh.OAuth.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using DatPhongNhanh.Oauth.Web.Models;
 
-namespace DatPhongNhanh.Oauth.Web.Controllers;
+namespace DatPhongNhanh.OAuth.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController(ILogger<HomeController> logger) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<HomeController> _logger = logger;
 
     public IActionResult Index()
     {

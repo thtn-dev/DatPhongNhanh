@@ -1,4 +1,4 @@
-namespace DatPhongNhanh.Oauth.Web.Models
+namespace DatPhongNhanh.OAuth.Web.Models
 {
     public class ErrorViewModel
     {
