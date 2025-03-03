@@ -12,5 +12,5 @@ public class OpenIddictClaimsPrincipalHandlerContext(
 
     public OpenIddictRequest OpenIddictRequest { get; } = openIddictRequest;
 
-    public ClaimsPrincipal Principal { get;} = principal;
+    public ClaimsPrincipal Principal { get; } = principal;
 }

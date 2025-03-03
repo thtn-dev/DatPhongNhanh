@@ -1,13 +1,11 @@
 using DatPhongNhanh.OAuth.Business.AppClaims;
 using DatPhongNhanh.OAuth.Data.DbContexts;
-using DatPhongNhanh.OAuth.Data.Entities.Identity;
 using DatPhongNhanh.OAuth.Data.Entities.OpenIddict;
 using DatPhongNhanh.OAuth.Data.Provider.Extensions;
-using DatPhongNhanh.OAuth.SharedKernel.Configurations;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
+using Vite.AspNetCore;
 
 namespace DatPhongNhanh.OAuth.Web;
 
@@ -23,6 +21,15 @@ public abstract class Program
         ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
         builder.Services.RegisterNpgSqlDbContexts<ApplicationDbContext>(connectionString);
 
+        builder.Services.AddViteServices(options =>
+        {
+            options.Server.Https = true;
+            options.Server.UseReactRefresh = true;
+            options.Server.PackageDirectory = "ClientApp";
+            options.Base = "dist";
+            options.Server.AutoRun = false;
+        });
+        
         builder.Services.AddOpenIddict()
             .AddCore(options =>
             {
@@ -35,7 +42,7 @@ public abstract class Program
                 options.SetTokenEndpointUris("connect/token");
 
                 options.AllowClientCredentialsFlow();
-                
+
                 options.UseAspNetCore()
                     .EnableTokenEndpointPassthrough()
                     .EnableAuthorizationEndpointPassthrough();
@@ -45,17 +52,10 @@ public abstract class Program
 
                 options.SetAccessTokenLifetime(TimeSpan.FromMinutes(30));
                 options.DisableAccessTokenEncryption();
-                options.RegisterScopes(new[]
-                {
-                    "api",
-                    OpenIddictConstants.Scopes.OpenId,
-                    OpenIddictConstants.Scopes.Email,
-                    OpenIddictConstants.Scopes.Profile,
-                    OpenIddictConstants.Scopes.Phone,
-                    OpenIddictConstants.Scopes.Roles,
-                    OpenIddictConstants.Scopes.Address,
-                    OpenIddictConstants.Scopes.OfflineAccess
-                });
+                options.RegisterScopes("api", OpenIddictConstants.Scopes.OpenId, OpenIddictConstants.Scopes.Email,
+                    OpenIddictConstants.Scopes.Profile, OpenIddictConstants.Scopes.Phone,
+                    OpenIddictConstants.Scopes.Roles, OpenIddictConstants.Scopes.Address,
+                    OpenIddictConstants.Scopes.OfflineAccess);
             })
             .AddValidation(options =>
             {
@@ -71,12 +71,10 @@ public abstract class Program
         });
         builder.Services.AddScoped<OpenIddictClaimsPrincipalManager>();
 
-        builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-            {
-            })
+        builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
-        
+
         builder.Services.AddAuthentication(options =>
         {
             options.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
@@ -84,17 +82,14 @@ public abstract class Program
 
         builder.Services.ConfigureApplicationCookie(options =>
         {
-            options.LoginPath = "/account/login";
+            options.LoginPath = "/identity/account/login";
             options.Cookie.Name = "x_auth";
         });
 
-        builder.Services.AddAntiforgery(options =>
-        {
-            options.Cookie.Name = "x_xsrf";
-        });
+        builder.Services.AddAntiforgery(options => { options.Cookie.Name = "x_xsrf"; });
         builder.Services.AddAuthorization();
         builder.Services.AddHostedService<SeedDataWorker>();
-        
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -103,10 +98,10 @@ public abstract class Program
             app.UseExceptionHandler("/Home/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
-
-            using var scope = app.Services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            context.Database.EnsureCreated();
+            
+            app.UseWebSockets();
+            // Use Vite Dev Server as middleware.
+            app.UseViteDevelopmentServer(true);
         }
 
         app.UseHttpsRedirection();
@@ -117,8 +112,8 @@ public abstract class Program
         app.MapControllers();
         app.MapRazorPages();
         app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                "default",
+                "{controller=Home}/{action=Index}/{id?}")
             .WithStaticAssets();
 
         app.Run();

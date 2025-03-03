@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DatPhongNhanh.OAuth.Data\DatPhongNhanh.OAuth.Data.csproj" />
+        <ProjectReference Include="..\DatPhongNhanh.OAuth.Data\DatPhongNhanh.OAuth.Data.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.4.0" />
+        <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.4.0"/>
     </ItemGroup>
 
 </Project>

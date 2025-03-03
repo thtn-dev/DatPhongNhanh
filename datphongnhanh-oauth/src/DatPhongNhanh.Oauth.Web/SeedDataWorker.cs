@@ -9,10 +9,10 @@ public class SeedDataWorker(IServiceProvider serviceProvider) : IHostedService
     {
         await using var scope = serviceProvider.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        
+
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
         var application = await manager.FindByClientIdAsync("console", cancellationToken);
-        
+
         if (application == null)
         {
             var descriptor = new OpenIddictApplicationDescriptor
@@ -51,7 +51,6 @@ public class SeedDataWorker(IServiceProvider serviceProvider) : IHostedService
 
             await manager.CreateAsync(descriptor, cancellationToken);
         }
-        
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

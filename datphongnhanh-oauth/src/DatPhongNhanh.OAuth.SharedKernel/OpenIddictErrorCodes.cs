@@ -33,7 +33,7 @@ public static class OpenIddictErrorCodes
     public const string InvalidDeviceCode = "invalid_device_code";
     public const string InvalidUserCodeProofKey = "invalid_user_code_proof_key";
     public const string InvalidUserCodeProofKeyAlgorithm = "invalid_user_code_proof_key_algorithm";
-    public const string InvalidUserCodeProofKeyEncoding =  "invalid_user_code_proof_key_encoding";
+    public const string InvalidUserCodeProofKeyEncoding = "invalid_user_code_proof_key_encoding";
     public const string InvalidUserCodeProofKeyMismatch = "invalid_user_code_proof_key_mismatch";
     public const string InvalidUserCodeProofKeyMissing = "invalid_user_code_proof_key_missing";
     public const string InvalidUserCodeProofKeyTooShort = "invalid_user_code_proof_key_too_short";

@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatPhongNhanh.OAuth.Data.DbContexts;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, long>(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    : IdentityDbContext<ApplicationUser, ApplicationRole, long>(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

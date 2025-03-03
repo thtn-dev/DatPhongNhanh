@@ -51,6 +51,14 @@ public class TypeList<TBaseType> : ITypeList<TBaseType>, IList<Type>, ICollectio
 
     //
     // Summary:
+    //     Creates a new Volo.Abp.Collections.TypeList`1 object.
+    public TypeList()
+    {
+        _typeList = new List<Type>();
+    }
+
+    //
+    // Summary:
     //     Gets the count.
     //
     // Value:
@@ -74,23 +82,12 @@ public class TypeList<TBaseType> : ITypeList<TBaseType>, IList<Type>, ICollectio
     //     Index.
     public Type this[int index]
     {
-        get
-        {
-            return _typeList[index];
-        }
+        get => _typeList[index];
         set
         {
             CheckType(value);
             _typeList[index] = value;
         }
-    }
-
-    //
-    // Summary:
-    //     Creates a new Volo.Abp.Collections.TypeList`1 object.
-    public TypeList()
-    {
-        _typeList = new List<Type>();
     }
 
     public void Add<T>() where T : TBaseType
@@ -100,12 +97,9 @@ public class TypeList<TBaseType> : ITypeList<TBaseType>, IList<Type>, ICollectio
 
     public bool TryAdd<T>() where T : TBaseType
     {
-        if (this.Contains<T>())
-        {
-            return false;
-        }
+        if (Contains<T>()) return false;
 
-        this.Add<T>();
+        Add<T>();
         return true;
     }
 
@@ -174,9 +168,9 @@ public class TypeList<TBaseType> : ITypeList<TBaseType>, IList<Type>, ICollectio
     private static void CheckType(Type item)
     {
         if (!typeof(TBaseType).GetTypeInfo().IsAssignableFrom(item))
-        {
-            throw new ArgumentException($"Given type ({item.AssemblyQualifiedName}) should be instance of {typeof(TBaseType).AssemblyQualifiedName} ", "item");
-        }
+            throw new ArgumentException(
+                $"Given type ({item.AssemblyQualifiedName}) should be instance of {typeof(TBaseType).AssemblyQualifiedName} ",
+                "item");
     }
 }
 

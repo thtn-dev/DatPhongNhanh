@@ -2,5 +2,5 @@
 
 public static class OpenIddictScopeConsts
 {
-    public const int NameMaxLength= 256;
+    public const int NameMaxLength = 256;
 }

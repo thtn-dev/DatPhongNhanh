@@ -1,8 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "_ReactLayout";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Hello Namx</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Styles {
+    <link rel="stylesheet" vite-href="~/main.tsx" asp-append-version="true"/>
+}
+<div id="root">
 </div>
+
+@section ReactScript {
+    <script type="module" vite-src="~/main.tsx" asp-append-version="true"></script>
+}

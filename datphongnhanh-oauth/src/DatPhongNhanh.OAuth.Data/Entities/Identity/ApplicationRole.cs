@@ -2,7 +2,6 @@
 
 namespace DatPhongNhanh.OAuth.Data.Entities.Identity;
 
-public class ApplicationRole : IdentityRole<long>, IEntityBase<long>    
+public class ApplicationRole : IdentityRole<long>, IEntityBase<long>
 {
-    
 }
