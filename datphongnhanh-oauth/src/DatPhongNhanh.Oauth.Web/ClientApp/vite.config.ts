@@ -50,10 +50,10 @@ export default defineConfig(async () => {
 
   const config: UserConfig = {
     base: '/dist/',
-    appType: 'spa',
-    root: '.',
-    // appType: 'custom',
-    // root: 'src',
+    // appType: 'spa',
+    // root: '.',
+    appType: 'custom',
+    root: 'src',
     publicDir: 'public',
     build: {
       manifest: true,

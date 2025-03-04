@@ -1,0 +1,12 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"]</title>
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body>
+
+@RenderBody()
+@await RenderSectionAsync("ReactScript", true)
+</body>
+</html>
