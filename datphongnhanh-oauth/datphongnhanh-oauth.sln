@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.OAuth.Web", "src\DatPhongNhanh.OAuth.Web\DatPhongNhanh.OAuth.Web.csproj", "{C11AC51C-F430-4AEC-88AD-8B2AE88CBF53}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.OAuth.SharedKernel", "src\DatPhongNhanh.OAuth.SharedKernel\DatPhongNhanh.OAuth.SharedKernel.csproj", "{B97CA33F-8CD6-47D2-B904-4E467F9AB345}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.OAuth.Data", "src\DatPhongNhanh.OAuth.Data\DatPhongNhanh.OAuth.Data.csproj", "{89001327-B9E4-482A-83CE-1E90EE697697}"
@@ -13,16 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.OAuth.Busines
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.OAuth.Data.Provider", "src\DatPhongNhanh.OAuth.Data.Provider\DatPhongNhanh.OAuth.Data.Provider.csproj", "{779A3FBA-046A-4B37-BC85-E01EE482D4AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.OAuth.Web", "src\DatPhongNhanh.OAuth.Web\DatPhongNhanh.OAuth.Web.csproj", "{E365970D-13C1-5BFB-67DE-7252495674D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C11AC51C-F430-4AEC-88AD-8B2AE88CBF53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C11AC51C-F430-4AEC-88AD-8B2AE88CBF53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C11AC51C-F430-4AEC-88AD-8B2AE88CBF53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C11AC51C-F430-4AEC-88AD-8B2AE88CBF53}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B97CA33F-8CD6-47D2-B904-4E467F9AB345}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B97CA33F-8CD6-47D2-B904-4E467F9AB345}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B97CA33F-8CD6-47D2-B904-4E467F9AB345}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{779A3FBA-046A-4B37-BC85-E01EE482D4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{779A3FBA-046A-4B37-BC85-E01EE482D4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{779A3FBA-046A-4B37-BC85-E01EE482D4AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E365970D-13C1-5BFB-67DE-7252495674D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E365970D-13C1-5BFB-67DE-7252495674D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E365970D-13C1-5BFB-67DE-7252495674D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E365970D-13C1-5BFB-67DE-7252495674D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
