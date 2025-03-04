@@ -12,6 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
 import { AlertCircle, Eye, EyeOff, Github, Loader2 } from "lucide-react"
 import { createRoot } from 'react-dom/client';
+import { handleRedirect } from '@/utils/redirect';
 
 const formSchema = z.object({
   emailOrUsername: z.string(),
@@ -24,14 +25,14 @@ const formSchema = z.object({
 type SignInFormValues = z.infer<typeof formSchema>
 
 const signInUser = async (data : SignInFormValues) => {
-  const endpoint = '/identity/user/signin';
-
+  const endpoint = '/identity/signin';
   const response = await fetch(endpoint, {
     method: 'POST',
     body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'X_XSRF_TOKEN': window.__antiForgeryToken || ''
+    })
   });
 
   if (!response.ok) {
@@ -41,6 +42,8 @@ const signInUser = async (data : SignInFormValues) => {
 }
 
 export default function LoginPage() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
@@ -59,6 +62,8 @@ export default function LoginPage() {
     setError(null)
     try {
       await signInUser(values)
+      const returnUrl = urlParams.get('ReturnUrl') || '/';
+      handleRedirect(returnUrl);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred")
     } finally {

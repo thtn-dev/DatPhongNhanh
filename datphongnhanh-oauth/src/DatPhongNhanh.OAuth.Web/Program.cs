@@ -16,7 +16,7 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/identity/account/login";
+    options.LoginPath = "/identity/signin";
     options.Cookie.Name = "dpn_auth";
 });
 builder.Services.AddAntiforgery(options => { 
@@ -46,10 +46,10 @@ app.UseAuthorization();
 app.MapStaticAssets();
 app.MapControllers();
 app.MapRazorPages();
-app.MapAreaControllerRoute(
-    "IdentityArea",
-    "Identity",
-    "Identity/{controller}/{action}/{id?}");
+// app.MapAreaControllerRoute(
+//     "IdentityArea",
+//     "Identity",
+//     "Identity/{controller=Index}/{id?}");
 app.MapControllerRoute(
         "default",
         "{controller=Home}/{action=Index}/{id?}")
