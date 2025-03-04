@@ -19,7 +19,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/identity/account/login";
     options.Cookie.Name = "dpn_auth";
 });
-builder.Services.AddAntiforgery(options => { options.Cookie.Name = "dpn_xsrf"; options.HeaderName = "X_XSRF_TOKEN" });
+builder.Services.AddAntiforgery(options => { 
+    options.Cookie.Name = "dpn_xsrf"; 
+    options.HeaderName = "X_XSRF_TOKEN"; 
+});
 builder.Services.AddAuthorization();
 builder.Services.AddHostedService<SeedDataWorker>();
 
