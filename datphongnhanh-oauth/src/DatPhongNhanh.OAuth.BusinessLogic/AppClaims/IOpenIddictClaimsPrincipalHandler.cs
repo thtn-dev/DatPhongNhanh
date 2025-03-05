@@ -15,35 +15,34 @@ public sealed class DefaultOpenIddictClaimsPrincipalHandler : IOpenIddictClaimsP
 {
     public Task HandleAsync(OpenIddictClaimsPrincipalHandlerContext context)
     {
-        foreach (var claim in context.Principal.Claims)
-            switch (claim.Type)
-            {
-                case Claims.PreferredUsername:
-                case JwtRegisteredClaimNames.UniqueName:
-                    claim.SetDestinations(Destinations.AccessToken);
-                    if (context.Principal.HasScope(Scopes.Profile))
-                        claim.SetDestinations(Destinations.AccessToken, Destinations.IdentityToken);
-                    break;
-
-                case Claims.Email:
-                    claim.SetDestinations(Destinations.AccessToken);
-                    if (context.Principal.HasScope(Scopes.Email))
-                        claim.SetDestinations(Destinations.AccessToken, Destinations.IdentityToken);
-                    break;
-
-                case Claims.Role:
-                    claim.SetDestinations(Destinations.AccessToken);
-                    if (context.Principal.HasScope(Scopes.Roles))
-                        claim.SetDestinations(Destinations.AccessToken, Destinations.IdentityToken);
-                    break;
-
-                case "AspNet.Identity.SecurityStamp": break;
-
-                default:
-                    claim.SetDestinations(Destinations.AccessToken);
-                    break;
-            }
-
+        // foreach (var claim in context.Principal.Claims)
+        //     switch (claim.Type)
+        //     {
+        //         case Claims.PreferredUsername  or JwtRegisteredClaimNames.UniqueName or Claims.Name:
+        //             claim.SetDestinations(Destinations.AccessToken);
+        //             if (context.Principal.HasScope(Scopes.Profile))
+        //                 claim.SetDestinations(Destinations.AccessToken, Destinations.IdentityToken);
+        //             break;
+        //
+        //         case Claims.Email:
+        //             claim.SetDestinations(Destinations.AccessToken);
+        //             if (context.Principal.HasScope(Scopes.Email))
+        //                 claim.SetDestinations(Destinations.AccessToken, Destinations.IdentityToken);
+        //             break;
+        //
+        //         case Claims.Role:
+        //             claim.SetDestinations(Destinations.AccessToken);
+        //             if (context.Principal.HasScope(Scopes.Roles))
+        //                 claim.SetDestinations(Destinations.AccessToken, Destinations.IdentityToken);
+        //             break;
+        //
+        //         case "AspNet.Identity.SecurityStamp": break;
+        //
+        //         default:
+        //             claim.SetDestinations(Destinations.AccessToken);
+        //             break;
+        //     }
+        context.Identity.SetDestinations(GetDestinations);
         return Task.CompletedTask;
     }
 

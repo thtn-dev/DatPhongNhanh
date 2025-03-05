@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using DatPhongNhanh.OAuth.Business.AppClaims;
 using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using OpenIddict.Abstractions;
@@ -13,16 +14,16 @@ public abstract class OAuthControllerBase(IServiceProvider sp) : Controller
 
     protected IOpenIddictApplicationManager ApplicationManager =>
         ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
-
     protected IOpenIddictAuthorizationManager AuthorizationManager =>
         ServiceProvider.GetRequiredService<IOpenIddictAuthorizationManager>();
-
     protected IOpenIddictScopeManager ScopeManager => ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
     protected IOpenIddictTokenManager TokenManager => ServiceProvider.GetRequiredService<IOpenIddictTokenManager>();
 
-    protected OpenIddictClaimsPrincipalManager OpenIddictClaimsPrincipalManager =>
-        ServiceProvider.GetRequiredService<OpenIddictClaimsPrincipalManager>();
+    protected OpenIddictClaimsPrincipalManager OpenIddictClaimsPrincipalManager => ServiceProvider.GetRequiredService<OpenIddictClaimsPrincipalManager>();
+    
+    protected UserManager<ApplicationUser> UserManager => ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
+    protected SignInManager<ApplicationUser> SignInManager => ServiceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
     protected IOptions<OpenIddictClaimsPrincipalOptions> OpenIddictClaimsPrincipalOptions =>
         ServiceProvider.GetRequiredService<IOptions<OpenIddictClaimsPrincipalOptions>>();
 

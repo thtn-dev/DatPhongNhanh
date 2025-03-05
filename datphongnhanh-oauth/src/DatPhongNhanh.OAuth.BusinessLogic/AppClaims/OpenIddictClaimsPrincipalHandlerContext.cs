@@ -6,11 +6,12 @@ namespace DatPhongNhanh.OAuth.Business.AppClaims;
 public class OpenIddictClaimsPrincipalHandlerContext(
     IServiceProvider scopeServiceProvider,
     OpenIddictRequest openIddictRequest,
-    ClaimsPrincipal principal)
+    ClaimsIdentity claimsIdentity)
 {
     public IServiceProvider ScopeServiceProvider { get; } = scopeServiceProvider;
 
     public OpenIddictRequest OpenIddictRequest { get; } = openIddictRequest;
 
-    public ClaimsPrincipal Principal { get; } = principal;
+    // public ClaimsPrincipal Principal { get; } = principal;
+    public ClaimsIdentity Identity { get; }  = claimsIdentity;
 }

@@ -6,9 +6,9 @@ using OpenIddict.Server.AspNetCore;
 
 namespace DatPhongNhanh.OAuth.Web.Controllers.OAuth2;
 
-public partial class TokenController
+public sealed partial class TokenController
 {
-    protected virtual async Task<IActionResult> HandleClientCredentialsAsync(OpenIddictRequest request,
+    private async Task<IActionResult> HandleClientCredentialsAsync(OpenIddictRequest request,
         CancellationToken cancellationToken = default)
     {
         var application = await ApplicationManager.FindByClientIdAsync(request.ClientId!, cancellationToken);
@@ -33,12 +33,13 @@ public partial class TokenController
         // scope is not explicitly set, no identity token is returned to the client application.
 
         // Set the list of scopes granted to the client application in access_token.
-        var principal = new ClaimsPrincipal(identity);
-        principal.SetScopes(request.GetScopes());
-        principal.SetResources(await GetResourcesAsync(request.GetScopes()));
+        identity.SetScopes(request.GetScopes());
+        identity.SetResources(await GetResourcesAsync(request.GetScopes()));
 
         // handle the token request
-        await OpenIddictClaimsPrincipalManager.HandleAsync(request, principal);
+        await OpenIddictClaimsPrincipalManager.HandleAsync(request, identity);
+        var principal = new ClaimsPrincipal(identity);
+
 
         return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }

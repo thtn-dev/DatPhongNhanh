@@ -3,14 +3,13 @@ using OpenIddict.Abstractions;
 
 namespace DatPhongNhanh.OAuth.Web.Controllers.OAuth2;
 
-[Route("connect/token")]
-[IgnoreAntiforgeryToken]
 [ApiExplorerSettings(IgnoreApi = true)]
-public partial class TokenController(IServiceProvider sp) : OAuthControllerBase(sp)
+public sealed partial class TokenController(IServiceProvider sp) : OAuthControllerBase(sp)
 {
-    [HttpGet]
-    [HttpPost]
+    [HttpPost, HttpGet, IgnoreAntiforgeryToken]
     [Produces("application/json")]
+    [Route("~/connect/token")]
+
     public async Task<IActionResult> Exchange()
     {
         var request = await GetOAuthServerRequestAsync(HttpContext);
