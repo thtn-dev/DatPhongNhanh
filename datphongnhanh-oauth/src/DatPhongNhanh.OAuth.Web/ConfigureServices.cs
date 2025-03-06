@@ -22,13 +22,20 @@ public static class ServiceCollectionExtensions
            })
            .AddServer(options =>
            {
-               options.SetTokenEndpointUris("connect/token");
+               options.SetAuthorizationEndpointUris("connect/authorize")
+                      .SetEndSessionEndpointUris("connect/logout")
+                      .SetTokenEndpointUris("connect/token")
+                      .SetUserInfoEndpointUris("connect/userinfo");
 
-               options.AllowClientCredentialsFlow();
+               options.AllowClientCredentialsFlow()
+                      .AllowAuthorizationCodeFlow();
 
                options.UseAspNetCore()
-                   .EnableTokenEndpointPassthrough()
-                   .EnableAuthorizationEndpointPassthrough();
+                    .EnableAuthorizationEndpointPassthrough()
+                    .EnableEndSessionEndpointPassthrough()
+                    .EnableTokenEndpointPassthrough()
+                    .EnableUserInfoEndpointPassthrough()
+                    .EnableStatusCodePagesIntegration();
 
                options.AddDevelopmentEncryptionCertificate()
                    .AddDevelopmentSigningCertificate();

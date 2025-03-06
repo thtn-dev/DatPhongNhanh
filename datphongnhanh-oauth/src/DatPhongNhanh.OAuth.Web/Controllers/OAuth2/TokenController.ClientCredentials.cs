@@ -16,13 +16,13 @@ public sealed partial class TokenController
 
         var identity = new ClaimsIdentity(
             TokenValidationParameters.DefaultAuthenticationType,
-            OpenIddictConstants.Claims.PreferredUsername,
+            OpenIddictConstants.Claims.Name,
             OpenIddictConstants.Claims.Role);
 
         // Add the claims that will be persisted in the tokens (use the client_id as the subject identifier).
         identity.SetClaim(OpenIddictConstants.Claims.Subject,
             await ApplicationManager.GetClientIdAsync(application, cancellationToken));
-        identity.SetClaim(OpenIddictConstants.Claims.PreferredUsername,
+        identity.SetClaim(OpenIddictConstants.Claims.Name,
             await ApplicationManager.GetDisplayNameAsync(application, cancellationToken));
         // Note: In the original OAuth 2.0 specification, the client credentials grant
         // doesn't return an identity token, which is an OpenID Connect concept.

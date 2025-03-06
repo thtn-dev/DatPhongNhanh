@@ -52,7 +52,7 @@ public class AuthorizeController(IServiceProvider sp) : OAuthControllerBase(sp)
         var inValid = !result.Succeeded ||
                       (request.MaxAge != null && result.Properties?.IssuedUtc != null
                                               && DateTimeOffset.UtcNow - result.Properties.IssuedUtc >
-                                              TimeSpan.FromMinutes(request.MaxAge.Value));
+                                              TimeSpan.FromSeconds(request.MaxAge.Value));
         if (inValid)
         {
             // If the client application requested prompt less authentication,
@@ -74,7 +74,7 @@ public class AuthorizeController(IServiceProvider sp) : OAuthControllerBase(sp)
                 properties: new AuthenticationProperties
                 {
                     RedirectUri = Request.PathBase + Request.Path + QueryString.Create(
-                        Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
+                        Request.HasFormContentType ? [.. Request.Form] : [.. Request.Query])
                 });
         }
 
@@ -85,7 +85,7 @@ public class AuthorizeController(IServiceProvider sp) : OAuthControllerBase(sp)
                 properties: new AuthenticationProperties
                 {
                     RedirectUri = Request.PathBase + Request.Path + QueryString.Create(
-                        Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
+                        Request.HasFormContentType ? [.. Request.Form] : [.. Request.Query])
                 });
         }
 
@@ -97,7 +97,7 @@ public class AuthorizeController(IServiceProvider sp) : OAuthControllerBase(sp)
                 properties: new AuthenticationProperties
                 {
                     RedirectUri = Request.PathBase + Request.Path + QueryString.Create(
-                        Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
+                        Request.HasFormContentType ? [.. Request.Form] : [.. Request.Query])
                 });
         }
 
@@ -133,15 +133,14 @@ public class AuthorizeController(IServiceProvider sp) : OAuthControllerBase(sp)
             // If the consent is implicit or if an authorization was found,
             // return an authorization response without displaying the consent form.
             case OpenIddictConstants.ConsentTypes.Implicit:
-            case OpenIddictConstants.ConsentTypes.External when authorizations.Count != 0:
-            case OpenIddictConstants.ConsentTypes.Explicit when authorizations.Count != 0 &&
-                                                                !request.HasPromptValue(OpenIddictConstants.PromptValues
-                                                                    .Consent):
+            case OpenIddictConstants.ConsentTypes.External when authorizations.Count is not 0:
+            case OpenIddictConstants.ConsentTypes.Explicit when authorizations.Count is not 0 &&
+                                                                !request.HasPromptValue(OpenIddictConstants.PromptValues.Consent):
             {
                 // Create the claims-based identity that will be used by OpenIddict to generate tokens.
                 var identity = new ClaimsIdentity(
                     authenticationType: TokenValidationParameters.DefaultAuthenticationType,
-                    nameType: OpenIddictConstants.Claims.PreferredUsername,
+                    nameType: OpenIddictConstants.Claims.Name,
                     roleType: OpenIddictConstants.Claims.Role);
 
                 // Add the claims that will be persisted in the tokens.
@@ -276,7 +275,7 @@ public class AuthorizeController(IServiceProvider sp) : OAuthControllerBase(sp)
     
     [Authorize, FormValueRequired("submit.Deny")]
     [HttpPost("~/connect/authorize"), ValidateAntiForgeryToken]
-// Notify OpenIddict that the authorization grant has been denied by the resource owner
-// to redirect the user agent to the client application using the appropriate response_mode.
+    // Notify OpenIddict that the authorization grant has been denied by the resource owner
+    // to redirect the user agent to the client application using the appropriate response_mode.
     public IActionResult Deny() => Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 }

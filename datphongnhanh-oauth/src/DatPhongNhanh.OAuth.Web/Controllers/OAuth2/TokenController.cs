@@ -14,8 +14,12 @@ public sealed partial class TokenController(IServiceProvider sp) : OAuthControll
     {
         var request = await GetOAuthServerRequestAsync(HttpContext);
         var cancellationToken = HttpContext.RequestAborted;
+
         if (request.IsClientCredentialsGrantType())
             return await HandleClientCredentialsAsync(request, cancellationToken);
+
+        if (request.IsAuthorizationCodeGrantType() || request.IsRefreshTokenGrantType()     )
+            return await HandleAuthorizationCodeAsync(request, cancellationToken);
 
         return BadRequest(new OpenIddictResponse
         {

@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.OAuth.Data.Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPhongNhanh.OAuth.Web", "src\DatPhongNhanh.OAuth.Web\DatPhongNhanh.OAuth.Web.csproj", "{E365970D-13C1-5BFB-67DE-7252495674D1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleClient", "SampleClient", "{3CF8817A-7C19-409D-879E-F4DC0FDC285F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleClients", "SampleClients", "{3CF8817A-7C19-409D-879E-F4DC0FDC285F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrungNamClient", "src\client-samples\TrungNamClient\TrungNamClient.csproj", "{2074D35A-9023-4575-B608-CE6F19FD1544}"
 EndProject
@@ -51,10 +51,10 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3B2AB214-1354-40D0-93A8-E0FD37C6A68C}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2074D35A-9023-4575-B608-CE6F19FD1544} = {3CF8817A-7C19-409D-879E-F4DC0FDC285F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B2AB214-1354-40D0-93A8-E0FD37C6A68C}
 	EndGlobalSection
 EndGlobal
