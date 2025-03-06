@@ -1,0 +1,7 @@
+﻿@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+<script defer type="text/javascript">
+    const f = document.getElementById("__AjaxAntiForgeryForm"); window.__antiForgeryToken = f.querySelector('input[name="__RequestVerificationToken"]').value;
+</script>

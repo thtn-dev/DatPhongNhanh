@@ -1,0 +1,208 @@
+erDiagram
+    PROVINCE {
+        int id PK
+        string name
+        string country
+    }
+
+    DISTRICT {
+        int id PK
+        int province_id FK
+        string name
+    }
+
+    WARD {
+        int id PK
+        int district_id FK
+        string name
+    }
+
+    HOTEL {
+        int id PK
+        string name
+        string address
+        int ward_id FK
+        geography geo_location
+    }
+    
+    ROOM {
+        int id PK
+        int hotel_id FK
+        int room_type_id FK
+        string room_number
+        boolean is_available
+    }
+    
+    ROOM_TYPE {
+        int id PK
+        string name
+        decimal price
+        int max_guests
+    }
+    ROOM_IMAGE {
+        int id PK
+        int room_id FK
+        string image_url
+        string description
+        boolean is_main
+    }
+    
+    GUEST {
+        int id PK
+        string full_name
+        string email
+        string phone
+    }
+    
+    BOOKING {
+        int id PK
+        int guest_id FK
+        int room_id FK
+        date check_in_date
+        date check_out_date
+        int status_id FK
+        datetime created_at
+    }
+    
+    BOOKING_STATUS {
+        int id PK
+        string status_name
+    }
+
+    PAYMENT {
+        int id PK
+        int booking_id FK
+        decimal amount
+        string payment_method
+        datetime paid_at
+    }
+
+    AMENITY {
+        int id PK
+        string name
+    }
+
+    ROOM_AMENITY {
+        int id PK
+        int room_id FK
+        int amenity_id FK
+    }
+    HOTEL_IMAGE {
+        int id PK
+        int hotel_id FK
+        string image_url
+        string description
+        boolean is_main
+    }
+    SERVICE {
+        int id PK
+        string name
+        string description
+    }
+
+    HOTEL_SERVICE {
+        int id PK
+        int hotel_id FK
+        int service_id FK
+    }
+    PAYMENT_STATUS {
+        int id PK
+        string status_name
+    }
+
+DISCOUNT_CODE {
+        int id PK
+        string code UNIQUE
+        string description
+        decimal discount_value
+        boolean is_percentage
+        decimal min_booking_amount
+        datetime start_date
+        datetime end_date
+        int max_usage
+        int used_count DEFAULT
+        boolean is_active
+    }
+
+    HOTEL_DISCOUNT {
+        int id PK
+        int hotel_id FK
+        int discount_id FK
+    }
+
+    BOOKING_DISCOUNT {
+        int id PK
+        int booking_id FK
+        int discount_id FK
+    }
+
+    PROMOTION {
+        int id PK
+        string name
+        string description
+        decimal discount_percentage
+        datetime start_date
+        datetime end_date
+        boolean is_active
+    }
+
+    HOTEL_PROMOTION {
+        int id PK
+        int hotel_id FK
+        int promotion_id FK
+    }
+
+    ROOM_PROMOTION {
+        int id PK
+        int room_type_id FK
+        int promotion_id FK
+    }
+
+    HOTEL_REVIEW {
+        int id PK
+        int hotel_id FK
+        int guest_id FK
+        int rating 
+        string comment
+        datetime created_at
+    }
+    
+
+    ROOM_REVIEW {
+        int id PK
+        int room_id FK
+        int guest_id FK
+        int rating
+        string comment
+        datetime created_at
+    }
+    
+    
+    HOTEL ||--o{ ROOM : "có"
+    HOTEL ||--o{ HOTEL_IMAGE : "có"
+    PROVINCE ||--o{ DISTRICT : "có"
+    DISTRICT ||--o{ WARD : "có"
+    WARD ||--o{ HOTEL : "có"
+    ROOM ||--|{ ROOM_TYPE : "thuộc"
+    ROOM ||--o{ ROOM_IMAGE : "có"
+    GUEST ||--o{ BOOKING : "có"
+    HOTEL ||--o{ HOTEL_SERVICE : "có"
+    SERVICE ||--o{ HOTEL_SERVICE : "liên kết"
+    ROOM ||--o{ BOOKING : "được đặt"
+    BOOKING ||--|{ BOOKING_STATUS : "có trạng thái"
+    BOOKING ||--o{ PAYMENT : "có"
+    ROOM ||--o{ ROOM_AMENITY : "có"
+    AMENITY ||--o{ ROOM_AMENITY : "liên kết"
+    PAYMENT ||--|{ PAYMENT_STATUS : "có trạng thái"
+    HOTEL ||--o{ HOTEL_PROMOTION : "có"
+    ROOM_TYPE ||--o{ ROOM_PROMOTION : "có"
+    PROMOTION ||--o{ HOTEL_PROMOTION : "áp dụng"
+    PROMOTION ||--o{ ROOM_PROMOTION : "áp dụng"
+    HOTEL ||--o{ HOTEL_REVIEW : "có"
+    ROOM ||--o{ ROOM_REVIEW : "có"
+    GUEST ||--o{ HOTEL_REVIEW : "viết"
+    GUEST ||--o{ ROOM_REVIEW : "viết"
+     DISCOUNT_CODE ||--o{ HOTEL_DISCOUNT : "áp dụng cho"
+    HOTEL ||--o{ HOTEL_DISCOUNT : "có"
+    DISCOUNT_CODE ||--o{ BOOKING_DISCOUNT : "được sử dụng trong"
+    BOOKING ||--o{ BOOKING_DISCOUNT : "có mã giảm giá"

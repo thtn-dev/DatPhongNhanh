@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"]</title>
+    @await Html.PartialAsync("_HeadScripts")
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body>
+@RenderBody()
+@await Html.PartialAsync("_AntiForgeryForm")
+@await RenderSectionAsync("ReactScript", true)
+</body>
+</html>

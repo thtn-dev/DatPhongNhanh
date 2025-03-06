@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_ReactLayout";
+}
+@section Styles {
+    <link rel="stylesheet" vite-href="~/main.tsx" asp-append-version="true"/>
+}
+<div id="root">
+</div>
+
+@section ReactScript {
+    <script type="module" vite-src="~/main.tsx" asp-append-version="true"></script>
+}

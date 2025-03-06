@@ -1,0 +1,1 @@
+﻿global using DatPhongNhanh.OAuth.Data.Entities.Identity;

@@ -1,0 +1,17 @@
+﻿<noscript>
+    <h1>Trình duyệt của bạn không hỗ trợ JavaScript!</h1>
+    <p>Vui lòng bật JavaScript để sử dụng trang web này.</p>
+</noscript>
+<script type="text/javascript">
+    window.__uiThemeKey = "ui-theme";
+    (function () {
+        try {
+            const k = window.__uiThemeKey, r = document.documentElement,
+                t = localStorage.getItem(k),
+                d = matchMedia("(prefers-color-scheme: dark)").matches;
+            r.classList.remove("light", "dark");
+            r.classList.add(t === "dark" || t === "light" ? t : d ? "dark" : "light")
+        } catch (e) { document.documentElement.classList.add("light") }
+    })();
+    window.__user = @Html.Raw(Json.Serialize(ViewData["User"] ?? null));
+</script>
