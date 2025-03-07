@@ -77,7 +77,8 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-slate-50 px-4 py-12 dark:bg-slate-950">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md relative z-20">
+        <Powered />
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Sign in</CardTitle>
           <CardDescription className="text-center">Choose your preferred sign in method</CardDescription>
@@ -247,6 +248,16 @@ export default function LoginPage() {
     </div>
   )
 }
+
+function Powered() {
+  return ( <div className='z-10 absolute py-1 rotate-[270deg] left-[-7rem] top-[7rem] rounded-t-md bg-blue-500 px-4 w-[12rem] text-center'>
+    <span className='text-white/80'>Secured by</span>
+    <a href='#' className='text-white  font-medium'> TrungNam</a>
+  </div> );
+}
+
+
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <LoginPage />

@@ -75,6 +75,7 @@ public class SeedDataWorker(IServiceProvider serviceProvider) : IHostedService
                 ClientSecret = "901564A5-E7FE-42CB-B10D-61EF6A8F3654",
                 ConsentType = ConsentTypes.Explicit,
                 DisplayName = "Postman Client",
+                ApplicationType = ApplicationTypes.Native,
                 RedirectUris =
                 {
                     new Uri("https://oauth.pstmn.io/v1/callback")
@@ -84,12 +85,21 @@ public class SeedDataWorker(IServiceProvider serviceProvider) : IHostedService
                     Permissions.Endpoints.Authorization,
                     Permissions.Endpoints.EndSession,
                     Permissions.Endpoints.Token,
+                    Permissions.Endpoints.Revocation,
+                    Permissions.Endpoints.Introspection,
                     Permissions.GrantTypes.AuthorizationCode,
+                    Permissions.GrantTypes.Implicit,
                     Permissions.ResponseTypes.Code,
+                    Permissions.ResponseTypes.IdToken,
+                    Permissions.ResponseTypes.Token,
                     Permissions.Scopes.Email,
                     Permissions.Scopes.Profile,
-                    Permissions.Scopes.Roles
+                    Permissions.Scopes.Roles,
                 },
+                Requirements =
+                {
+                    Requirements.Features.ProofKeyForCodeExchange
+                }
             }, cancellationToken);
         }
     }

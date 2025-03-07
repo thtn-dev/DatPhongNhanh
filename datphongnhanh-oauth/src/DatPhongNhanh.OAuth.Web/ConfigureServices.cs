@@ -4,7 +4,7 @@ using DatPhongNhanh.OAuth.Data.Entities.OpenIddict;
 using DatPhongNhanh.OAuth.Data.Provider.Extensions;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
-using OpenIddict.Validation.AspNetCore;
+using Quartz;
 using Vite.AspNetCore;
 
 namespace DatPhongNhanh.OAuth.Web;
@@ -19,28 +19,35 @@ public static class ServiceCollectionExtensions
                options.UseEntityFrameworkCore()
                    .UseDbContext<ApplicationDbContext>()
                    .ReplaceDefaultEntities<ApplicationEntity, AuthorizationEntity, ScopeEntity, TokenEntity, long>();
+
+               options.UseQuartz();
            })
            .AddServer(options =>
            {
                options.SetAuthorizationEndpointUris("connect/authorize")
                       .SetEndSessionEndpointUris("connect/logout")
                       .SetTokenEndpointUris("connect/token")
-                      .SetUserInfoEndpointUris("connect/userinfo");
+                      .SetEndSessionEndpointUris("connect/endsession")
+                      .SetUserInfoEndpointUris("connect/userinfo")
+                      .SetIntrospectionEndpointUris("connect/introspect")
+                      .SetRevocationEndpointUris("connect/revocat")
+                      .SetEndUserVerificationEndpointUris("connect/verify");
 
                options.AllowClientCredentialsFlow()
-                      .AllowAuthorizationCodeFlow();
+                      .AllowAuthorizationCodeFlow()
+                      .AllowImplicitFlow()
+                      .AllowRefreshTokenFlow();
 
                options.UseAspNetCore()
                     .EnableAuthorizationEndpointPassthrough()
-                    .EnableEndSessionEndpointPassthrough()
                     .EnableTokenEndpointPassthrough()
                     .EnableUserInfoEndpointPassthrough()
+                    .EnableEndSessionEndpointPassthrough()
                     .EnableStatusCodePagesIntegration();
 
                options.AddDevelopmentEncryptionCertificate()
                    .AddDevelopmentSigningCertificate();
 
-               options.SetAccessTokenLifetime(TimeSpan.FromMinutes(30));
                options.DisableAccessTokenEncryption();
                options.RegisterScopes("api", OpenIddictConstants.Scopes.OpenId, OpenIddictConstants.Scopes.Email,
                    OpenIddictConstants.Scopes.Profile, OpenIddictConstants.Scopes.Phone,
@@ -93,5 +100,15 @@ public static class ServiceCollectionExtensions
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
         services.RegisterNpgSqlDbContexts<ApplicationDbContext>(connectionString);
+    }
+
+    public static void ConfigureQuartz(this IServiceCollection services)
+    {
+        services.AddQuartz(options =>
+        {
+            options.UseSimpleTypeLoader();
+            options.UseInMemoryStore();
+        });
+        services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
     }
 }
