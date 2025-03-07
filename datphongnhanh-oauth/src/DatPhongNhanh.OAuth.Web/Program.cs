@@ -9,6 +9,7 @@ builder.Services.AddRazorPages();
 builder.Services.ConfigureViteIntegration();
 builder.Services.ConfigureEntityFramework(builder.Configuration);
 builder.Services.ConfigureIdentity();
+builder.Services.ConfigureQuartz();
 builder.Services.ConfigureOpenIddict();
 builder.Services.AddAuthentication(options =>
 {
@@ -19,9 +20,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/identity/signin";
     options.Cookie.Name = "dpn_auth";
 });
-builder.Services.AddAntiforgery(options => { 
-    options.Cookie.Name = "dpn_xsrf"; 
-    options.HeaderName = "X_XSRF_TOKEN"; 
+builder.Services.AddAntiforgery(options =>
+{
+    options.Cookie.Name = "dpn_xsrf";
+    options.HeaderName = "X_XSRF_TOKEN";
 });
 builder.Services.AddAuthorization();
 builder.Services.AddHostedService<SeedDataWorker>();

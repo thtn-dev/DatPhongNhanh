@@ -13,7 +13,6 @@ using OpenIddict.Server.AspNetCore;
 
 namespace DatPhongNhanh.OAuth.Web.Controllers.OAuth2;
 
-[IgnoreAntiforgeryToken]
 [ApiExplorerSettings(IgnoreApi = true)]
 public class AuthorizeController(IServiceProvider sp) : OAuthControllerBase(sp)
 {
@@ -278,4 +277,27 @@ public class AuthorizeController(IServiceProvider sp) : OAuthControllerBase(sp)
     // Notify OpenIddict that the authorization grant has been denied by the resource owner
     // to redirect the user agent to the client application using the appropriate response_mode.
     public IActionResult Deny() => Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+
+
+    [HttpGet("~/connect/logout")]
+    public IActionResult Logout() => View();
+
+    [ActionName(nameof(Logout)), HttpPost("~/connect/logout"), ValidateAntiForgeryToken]
+    public async Task<IActionResult> LogoutPost()
+    {
+        // Ask ASP.NET Core Identity to delete the local and external cookies created
+        // when the user agent is redirected from the external identity provider
+        // after a successful authentication flow (e.g Google or Facebook).
+        await SignInManager.SignOutAsync();
+
+        // Returning a SignOutResult will ask OpenIddict to redirect the user agent
+        // to the post_logout_redirect_uri specified by the client application or to
+        // the RedirectUri specified in the authentication properties if none was set.
+        return SignOut(
+            authenticationSchemes: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
+            properties: new AuthenticationProperties
+            {
+                RedirectUri = Url.Content("~/")
+            });
+    }
 }
