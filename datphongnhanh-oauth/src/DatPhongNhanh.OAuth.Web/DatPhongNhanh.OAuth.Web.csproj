@@ -120,6 +120,9 @@
 
     <ItemGroup>
         <Folder Include="ClientApp\" />
+        <Folder Include="ClientApp\src\app\identity\forgot-password.tsx\" />
+        <Folder Include="ClientApp\src\app\identity\reset-password\" />
+        <Folder Include="ClientApp\src\app\identity\signin-two-factor\" />
     </ItemGroup>
 
 </Project>
