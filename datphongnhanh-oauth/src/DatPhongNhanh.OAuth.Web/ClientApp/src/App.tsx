@@ -1,5 +1,5 @@
 import '@/styles/styles.css';
-import ConsentPage from './app/oauth/consent/page';
+import ConsentPage from './app/pages/oauth/consent/page';
 function App() {
   return <ConsentPage />;
 }

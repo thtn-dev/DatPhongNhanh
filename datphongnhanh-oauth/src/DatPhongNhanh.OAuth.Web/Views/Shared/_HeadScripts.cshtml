@@ -3,10 +3,10 @@
     <p>Vui lòng bật JavaScript để sử dụng trang web này.</p>
 </noscript>
 <script type="text/javascript">
-    window.__uiThemeKey = "ui-theme";
+    window.__themeKey = "ui-theme";
     (function () {
         try {
-            const k = window.__uiThemeKey, r = document.documentElement,
+            const k = window.__themeKey, r = document.documentElement,
                 t = localStorage.getItem(k),
                 d = matchMedia("(prefers-color-scheme: dark)").matches;
             r.classList.remove("light", "dark");

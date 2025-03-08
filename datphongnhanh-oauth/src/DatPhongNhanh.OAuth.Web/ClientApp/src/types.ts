@@ -6,7 +6,7 @@ type User = {
 declare global {
   interface Window {
     __antiForgeryToken?: string;
-    __dautruongUiThemeKey: string;
+    __themeKey: string;
     __user?: User;
   }
 }
