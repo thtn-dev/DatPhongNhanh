@@ -62,7 +62,6 @@ const formSchema = z
 type SignUpFormValues = z.infer<typeof formSchema>;
 const signUpUser = async (data: SignUpFormValues) => {
   const endpoint = '/identity/signup';
-
   const response = await fetch(endpoint, {
     method: 'POST',
     body: JSON.stringify(data),

@@ -28,6 +28,7 @@ import { renderWithFallback } from '@/lib/render';
 import '@/styles/styles.css';
 import { handleRedirect } from '@/utils/redirect';
 import { AlertCircle, Eye, EyeOff, Github, Loader2 } from 'lucide-react';
+import { getReturnUrl } from '@/utils/url';
 
 const formSchema = z.object({
   emailOrUsername: z.string(),
@@ -77,7 +78,7 @@ export default function LoginPage() {
     setError(null);
     try {
       await signInUser(values);
-      const returnUrl = urlParams.get('ReturnUrl') || '/';
+      const returnUrl = getReturnUrl(urlParams);
       handleRedirect(returnUrl);
     } catch (err) {
       setError(

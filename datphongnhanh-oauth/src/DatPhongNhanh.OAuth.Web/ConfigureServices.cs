@@ -22,6 +22,26 @@ public static class ServiceCollectionExtensions
 
                options.UseQuartz();
            })
+           .AddClient(options =>
+           {
+               options.AllowAuthorizationCodeFlow();
+
+               options.AddDevelopmentEncryptionCertificate()
+                   .AddDevelopmentSigningCertificate();
+
+               options.UseAspNetCore()
+                   .EnableStatusCodePagesIntegration()
+                   .EnableRedirectionEndpointPassthrough();
+
+               options.UseSystemNetHttp()
+                   .SetProductInformation(typeof(Program).Assembly);
+
+               options.UseWebProviders()
+                   .AddGoogle(googleOptions =>
+                   {
+                        googleOptions.AddScopes("email", "profile");
+                   });
+           })
            .AddServer(options =>
            {
                options.SetAuthorizationEndpointUris("connect/authorize")

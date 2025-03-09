@@ -19,7 +19,7 @@ namespace DatPhongNhanh.OAuth.Web.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class ExternalLoginModel : PageModel
 {
-    private readonly IEmailSender _emailSender;
+    // private readonly IEmailSender _emailSender;
     private readonly IUserEmailStore<ApplicationUser> _emailStore;
     private readonly ILogger<ExternalLoginModel> _logger;
     private readonly SignInManager<ApplicationUser> _signInManager;
@@ -30,15 +30,14 @@ public class ExternalLoginModel : PageModel
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         IUserStore<ApplicationUser> userStore,
-        ILogger<ExternalLoginModel> logger,
-        IEmailSender emailSender)
+        ILogger<ExternalLoginModel> logger)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _userStore = userStore;
         _emailStore = GetEmailStore();
         _logger = logger;
-        _emailSender = emailSender;
+        // _emailSender = emailSender;
     }
 
     /// <summary>
@@ -153,8 +152,8 @@ public class ExternalLoginModel : PageModel
                         new { area = "Identity", userId, code },
                         Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    // await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     // If account confirmation is required, we need to show the link if we don't have a real email sender
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

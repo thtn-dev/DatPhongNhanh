@@ -10,7 +10,9 @@ import { FallbackProps } from 'react-error-boundary';
 export const render = (Component: React.FC, rootId: string = 'root') => {
   createRoot(document.getElementById(rootId)!).render(
     <StrictMode>
+      <EmptyLayout>
       <Component />
+      </EmptyLayout>
     </StrictMode>
   );
 };

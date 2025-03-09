@@ -1,0 +1,24 @@
+﻿@using DatPhongNhanh.OAuth.Web.Areas.Identity.Controllers;
+@model InputModel
+@{
+    ViewData["Title"] = "External Login";
+}
+@section Styles {
+    <link rel="stylesheet" vite-href="~/app/pages/identity/external/page.tsx" asp-append-version="true" />
+}
+<div id="root">
+</div>
+
+@section ReactScript {
+    <script type="text/javascript">
+        console.log("hello");
+        window.__model = @Html.Raw(Json.Serialize(Model));
+        window.__viewData = {
+            returnUrl: "@ViewData["ReturnUrl"]",
+            providerDisplayName: "@ViewData["ProviderDisplayName"]"
+        }
+        console.log(window.__viewData, window.__model)
+    
+    </script>
+    <script type="module" vite-src="~/app/pages/identity/external/page.tsx" asp-append-version="true"></script>
+}
